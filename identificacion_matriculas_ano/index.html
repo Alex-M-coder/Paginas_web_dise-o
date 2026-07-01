@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrículas 360 - Identificador de Matrículas de España</title>
+    <!-- Metas de SEO -->
+    <meta name="description" content="Calcula el año de matriculación de cualquier coche, moto, ciclomotor o remolque en España. Soporta sistema moderno, provincial alfanumérico y numérico clásico.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Glowing Background Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        
+        <!-- Header -->
+        <header>
+            <div class="header-top">
+                <div class="logo-container">
+                    <span class="logo-icon">🚗</span>
+                    <h1 data-i18n="title">Identificador de Matrículas</h1>
+                </div>
+                
+                <!-- Idiomas -->
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="es">ES</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ca">CA</button>
+                    <button class="lang-btn" data-lang="gl">GL</button>
+                    <button class="lang-btn" data-lang="eu">EU</button>
+                </div>
+            </div>
+            <p class="subtitle" data-i18n="subtitle">Detección histórica, año de matriculación y tipo de vehículo</p>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="app-grid">
+            
+            <!-- Left Panel: Input & Control -->
+            <div class="panel">
+                
+                <!-- Input Principal -->
+                <div class="form-group">
+                    <label for="plateInput" data-i18n="inputLabel">Introduce la matrícula a mano:</label>
+                    <div class="input-container">
+                        <input type="text" id="plateInput" class="input-field" data-i18n-placeholder="inputPlaceholder" autocomplete="off" autofocus>
+                        <button id="clearBtn" class="clear-btn">✕</button>
+                    </div>
+                    <div id="errorMsg" class="error-message"></div>
+                </div>
+
+                <!-- Selector de Vista (Delantera / Trasera) -->
+                <div class="form-group">
+                    <label data-i18n="viewLabel">Vista de la Placa:</label>
+                    <div class="selector-row">
+                        <button class="btn-pill view-btn active" data-view="front">
+                            <span>☀️</span> <span data-i18n="frontView">Delantera (Blanca)</span>
+                        </button>
+                        <button class="btn-pill view-btn" data-view="rear">
+                            <span>🌙</span> <span data-i18n="rearView">Trasera (Taxis/VTC en azul)</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Toggle especial para Taxi / VTC -->
+                    <div id="taxiToggleContainer" class="toggle-container">
+                        <label class="switch">
+                            <input type="checkbox" id="taxiVtcToggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="toggle-label" data-i18n="typeTaxiRear">Taxi o VTC (Placa trasera azul obligatoria en España desde 2018)</span>
+                    </div>
+                </div>
+
+                <!-- Selector de Motor / Combustible -->
+                <div class="form-group">
+                    <label data-i18n="engineLabel">Motor (para distintivo DGT):</label>
+                    <div class="selector-row">
+                        <button class="btn-pill engine-btn active" data-engine="petrol">
+                            <span>⛽</span> <span data-i18n="enginePetrol">Gasolina</span>
+                        </button>
+                        <button class="btn-pill engine-btn" data-engine="diesel">
+                            <span>🚀</span> <span data-i18n="engineDiesel">Diésel</span>
+                        </button>
+                        <button class="btn-pill engine-btn" data-engine="hybrid">
+                            <span>🔋</span> <span data-i18n="engineHybrid">Enchufable / ECO</span>
+                        </button>
+                        <button class="btn-pill engine-btn" data-engine="electric">
+                            <span>⚡</span> <span data-i18n="engineElectric">Eléctrico</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ejemplos Rápidos -->
+                <div class="examples-container">
+                    <span data-i18n="quickExamples">Ejemplos rápidos para probar:</span>
+                    <div class="examples-grid">
+                        <button class="example-tag" data-plate="1234 BBB">1234 BBB (2000)</button>
+                        <button class="example-tag" data-plate="9999 MXP">9999 MXP (2024)</button>
+                        <button class="example-tag" data-plate="5678 KXY" data-taxi="true">Taxi (Azul)</button>
+                        <button class="example-tag" data-plate="C 1234 BBB">Ciclomotor</button>
+                        <button class="example-tag" data-plate="R 5678 BDF">Remolque</button>
+                        <button class="example-tag" data-plate="H 9999 BCD">Histórico</button>
+                        <button class="example-tag" data-plate="CD 12 34">Diplo CD</button>
+                        <button class="example-tag" data-plate="M 1234 AB">M-1234-AB</button>
+                        <button class="example-tag" data-plate="B 960000">B-960000 (1971)</button>
+                        <button class="example-tag" data-plate="CNP 12345">CNP (Policía)</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Panel: Physical Plate Preview & Data -->
+            <div>
+                
+                <!-- Plate Canvas Rendering Area -->
+                <div class="plate-preview-area">
+                    <div id="plateContainer" class="plate-body standard">
+                        <div class="euroband">
+                            <div class="stars">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                <span>★</span><span>★</span>
+                            </div>
+                            <span class="country">E</span>
+                        </div>
+                        <div class="plate-number font-plate">0000 BBB</div>
+                    </div>
+                </div>
+
+                <!-- Info Display Panel Card -->
+                <div id="resultsCard" class="results-card panel">
+                    <h2 class="result-title" style="font-size: 1.2rem; margin-bottom: 20px; font-weight: 700; border-bottom: 1px solid var(--glass-border); padding-bottom: 12px;" data-i18n="resultTitle">Detalles del Vehículo Identificado</h2>
+                    
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <div class="result-label" data-i18n="yearLabel">Año Estimado</div>
+                            <div class="result-val" id="resYear">--</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label" data-i18n="monthLabel">Mes Estimado</div>
+                            <div class="result-val" id="resMonth">--</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label" data-i18n="provinceLabel">Provincia de Origen</div>
+                            <div class="result-val" id="resProvince">--</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label" data-i18n="typeLabel">Tipo de Matrícula</div>
+                            <div class="result-val" id="resType" style="font-size: 0.95rem; font-weight: 600; line-height: 1.4;">--</div>
+                        </div>
+                    </div>
+
+                    <!-- Badge environmental circle and info -->
+                    <div class="badge-section">
+                        <div class="badge-wrapper">
+                            <div id="badgeBadge" class="badge-circle none">A</div>
+                        </div>
+                        <div class="badge-info">
+                            <div class="result-label" data-i18n="badgeLabel">Distintivo Ambiental DGT</div>
+                            <div class="badge-title" id="badgeTitle">Sin Distintivo (Categoría A)</div>
+                            <div class="badge-desc" id="badgeDesc">--</div>
+                        </div>
+                    </div>
+
+                    <!-- Note -->
+                    <p class="info-note" data-i18n="approxNote">Nota: Las fechas obtenidas por letras son estimaciones basadas en el ritmo de la DGT. La fecha exacta se encuentra en el permiso de circulación del vehículo.</p>
+                </div>
+
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <!-- Script Application -->
+    <script src="app.js"></script>
+</body>
+</html>

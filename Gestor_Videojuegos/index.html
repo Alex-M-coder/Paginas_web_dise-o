@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVault - Gestor de Videojuegos Multiplataforma</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background glowing orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="6" y1="12" x2="10" y2="12"></line>
+                        <line x1="8" y1="10" x2="8" y2="14"></line>
+                        <line x1="15" y1="13" x2="15.01" y2="13"></line>
+                        <line x1="18" y1="11" x2="18.01" y2="11"></line>
+                        <rect x="2" y="6" width="20" height="12" rx="3" ry="3"></rect>
+                    </svg>
+                </div>
+                <h1>Game<span>Vault</span></h1>
+            </div>
+            <div class="header-actions">
+                <button id="btn-random" class="btn btn-secondary" title="¿A qué jugar hoy?">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <circle cx="15.5" cy="15.5" r="1.5"></circle>
+                        <circle cx="15.5" cy="8.5" r="1.5"></circle>
+                        <circle cx="8.5" cy="15.5" r="1.5"></circle>
+                        <circle cx="12" cy="12" r="1.5"></circle>
+                    </svg>
+                    <span>¿A qué jugar?</span>
+                </button>
+                <button id="btn-add-game" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <span>Añadir Juego</span>
+                </button>
+                <div class="backup-menu">
+                    <button id="btn-backup-trigger" class="btn btn-icon" title="Copia de seguridad">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </button>
+                    <div class="backup-dropdown">
+                        <button id="btn-export">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            Exportar Biblioteca
+                        </button>
+                        <label for="import-file" id="lbl-import">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Importar Biblioteca
+                        </label>
+                        <input type="file" id="import-file" accept=".json" style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard / Statistics Panel -->
+        <section id="dashboard" class="dashboard-section glass-panel">
+            <div class="dashboard-header">
+                <h2>Panel de Control</h2>
+                <button id="btn-toggle-stats" class="btn btn-text-icon">
+                    <span id="toggle-stats-text">Ocultar Estadísticas</span>
+                    <svg id="toggle-stats-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="18 15 12 9 6 15"></polyline>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="dashboard-content" class="dashboard-grid">
+                <!-- KPI metrics -->
+                <div class="metrics-container">
+                    <div class="metric-card">
+                        <div class="metric-icon plat-all">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                            </svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">Total Juegos</span>
+                            <span id="stat-total" class="metric-value">0</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon stat-completed">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">Completados</span>
+                            <div class="metric-row">
+                                <span id="stat-completed" class="metric-value">0</span>
+                                <span id="stat-percent" class="metric-badge">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon stat-playing">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" class="spin-pulse">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">Jugando Ahora</span>
+                            <span id="stat-playing" class="metric-value">0</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon stat-finance">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                        </div>
+                        <div class="metric-info">
+                            <span class="metric-label">Inversión & Horas</span>
+                            <span id="stat-finance" class="metric-value">0,00 €</span>
+                            <span id="stat-hours" class="metric-subtext">0 horas jugadas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Distribution Charts -->
+                <div class="charts-container">
+                    <div class="chart-box">
+                        <h3>Plataformas</h3>
+                        <div class="chart-bars" id="platform-chart">
+                            <!-- Dynamically loaded platform bars -->
+                            <div class="chart-empty">No hay datos suficientes</div>
+                        </div>
+                    </div>
+                    <div class="chart-box">
+                        <h3>Progreso General</h3>
+                        <div class="chart-bars" id="status-chart">
+                            <!-- Dynamically loaded status bars -->
+                            <div class="chart-empty">No hay datos suficientes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters & Search Bar -->
+        <section class="filters-section glass-panel">
+            <div class="search-bar">
+                <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="search-input" placeholder="Buscar por título o notas...">
+            </div>
+            
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="filter-platform">Plataforma</label>
+                    <select id="filter-platform">
+                        <option value="all">Todas</option>
+                        <option value="pc">PC</option>
+                        <option value="playstation">PlayStation</option>
+                        <option value="xbox">Xbox</option>
+                        <option value="nintendo">Nintendo Switch</option>
+                        <option value="mobile">Móvil</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-status">Estado</label>
+                    <select id="filter-status">
+                        <option value="all">Todos</option>
+                        <option value="playing">Jugando</option>
+                        <option value="backlog">Backlog (Pendiente)</option>
+                        <option value="completed">Completado</option>
+                        <option value="abandoned">Abandonado</option>
+                        <option value="wishlist">Lista de deseos</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="sort-by">Ordenar por</label>
+                    <select id="sort-by">
+                        <option value="added-desc">Añadidos recientemente</option>
+                        <option value="name-asc">Nombre (A-Z)</option>
+                        <option value="name-desc">Nombre (Z-A)</option>
+                        <option value="rating-desc">Mayor valoración</option>
+                        <option value="hours-desc">Más horas jugadas</option>
+                        <option value="price-desc">Mayor precio</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Catalog -->
+        <main class="catalog-section">
+            <div class="catalog-header">
+                <h2>Mi Biblioteca <span id="games-count">(0)</span></h2>
+                <div class="view-toggle">
+                    <button id="view-grid" class="btn btn-icon active" title="Vista Cuadrícula">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </button>
+                    <button id="view-list" class="btn btn-icon" title="Vista Lista">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty library indicator -->
+            <div id="empty-catalog" class="empty-state glass-panel hidden">
+                <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polygon points="5 3 19 3 19 21 5 21"></polygon>
+                    <line x1="9" y1="7" x2="15" y2="7"></line>
+                    <line x1="9" y1="11" x2="15" y2="11"></line>
+                    <line x1="9" y1="15" x2="13" y2="15"></line>
+                </svg>
+                <h3>No hay juegos que coincidan con la búsqueda</h3>
+                <p>Intenta cambiar los filtros o añade un nuevo juego a tu colección.</p>
+                <button id="btn-empty-add" class="btn btn-primary">Añadir tu primer juego</button>
+            </div>
+
+            <!-- Grid container -->
+            <div id="games-grid" class="games-grid">
+                <!-- Games will be dynamically populated here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modales -->
+
+    <!-- 1. Add / Edit Game Modal -->
+    <div id="modal-game" class="modal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2 id="modal-title">Añadir Nuevo Juego</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="game-form" class="modal-body">
+                <input type="hidden" id="game-id">
+                
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label for="game-name">Título del Videojuego *</label>
+                        <input type="text" id="game-name" required placeholder="Ej: The Legend of Zelda: Tears of the Kingdom">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="game-platform">Plataforma *</label>
+                        <select id="game-platform" required>
+                            <option value="" disabled selected>Selecciona plataforma...</option>
+                            <option value="pc">PC</option>
+                            <option value="playstation">PlayStation</option>
+                            <option value="xbox">Xbox</option>
+                            <option value="nintendo">Nintendo Switch</option>
+                            <option value="mobile">Móvil</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="game-status">Estado *</label>
+                        <select id="game-status" required>
+                            <option value="backlog" selected>Backlog (Pendiente)</option>
+                            <option value="playing">Jugando</option>
+                            <option value="completed">Completado</option>
+                            <option value="abandoned">Abandonado</option>
+                            <option value="wishlist">Lista de deseos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="game-price">Precio de Compra (€)</label>
+                        <input type="number" id="game-price" step="0.01" min="0" placeholder="0.00">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="game-hours">Horas Jugadas</label>
+                        <input type="number" id="game-hours" min="0" step="0.5" placeholder="0">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label for="game-cover">URL de Imagen de Portada</label>
+                        <div class="cover-input-container">
+                            <input type="url" id="game-cover" placeholder="https://ejemplo.com/portada.jpg">
+                            <button type="button" id="btn-generate-gradient" class="btn btn-secondary-sm" title="Generar portada de colores abstractos">Auto-Generar</button>
+                        </div>
+                        <span class="input-helper">Deja vacío para auto-generar un fondo de gradiente artístico.</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label>Valoración</label>
+                        <div class="rating-stars" id="rating-stars-input">
+                            <span class="star-interactive" data-value="1">&#9733;</span>
+                            <span class="star-interactive" data-value="2">&#9733;</span>
+                            <span class="star-interactive" data-value="3">&#9733;</span>
+                            <span class="star-interactive" data-value="4">&#9733;</span>
+                            <span class="star-interactive" data-value="5">&#9733;</span>
+                        </div>
+                        <input type="hidden" id="game-rating" value="0">
+                    </div>
+                </div>
+
+                <!-- Achievements Section -->
+                <div class="form-section">
+                    <h3>Logros / Retos del Juego</h3>
+                    <div class="achievement-creator">
+                        <input type="text" id="new-achievement-text" placeholder="Ej: Conseguir el 100%, Terminar campaña, conseguir todos los coleccionables...">
+                        <button type="button" id="btn-add-achievement" class="btn btn-secondary-sm">Agregar Logro</button>
+                    </div>
+                    <ul id="modal-achievements-list" class="achievements-editor-list">
+                        <!-- Achievements listed with checkboxes and delete buttons -->
+                    </ul>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label for="game-notes">Notas / Reseña Personal</label>
+                        <textarea id="game-notes" rows="3" placeholder="Añade detalles sobre lo que piensas del juego, notas de compra, etc."></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btn-delete-game" class="btn btn-danger hidden">Eliminar Juego</button>
+                    <div class="footer-right-buttons">
+                        <button type="button" class="btn btn-secondary modal-close">Cancelar</button>
+                        <button type="submit" id="btn-save-game" class="btn btn-primary">Guardar Juego</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. Random picker Game Modal -->
+    <div id="modal-random" class="modal">
+        <div class="modal-content glass-panel random-modal-content">
+            <div class="modal-header">
+                <h2>¿A qué jugamos hoy?</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body random-body">
+                <p class="random-intro">Dejemos que el destino decida tu próxima aventura entre tus juegos del Backlog o en juego:</p>
+                
+                <div class="random-roulette-container">
+                    <div id="roulette-box" class="roulette-box">
+                        <span id="roulette-text">Presiona Girar</span>
+                    </div>
+                </div>
+
+                <div id="random-result" class="random-result hidden">
+                    <h3>¡Tu destino es!</h3>
+                    <div class="winner-card" id="winner-card-placeholder">
+                        <!-- Winner details loaded here -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-center">
+                <button id="btn-spin" class="btn btn-primary btn-lg">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" class="spin-icon">
+                        <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                    </svg>
+                    <span>Girar Ruleta</span>
+                </button>
+                <button id="btn-close-random" class="btn btn-secondary modal-close hidden">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
