@@ -37,6 +37,13 @@ Una tienda virtual inmersiva y tridimensional que simula un escaparate de videoj
 *   **Tecnologías:** HTML5, CSS3, JavaScript (ES Modules), Three.js, GSAP y Web Audio API.
 *   **Ubicación:** [`Creacion_de_pagina_3d/`](./Creacion_de_pagina_3d)
 
+### 4. 💻 Proyectos C++ - Colección de Códigos C++ y Web 3D
+Una colección de desarrollos en C++ y aplicaciones interactivas duales.
+*   **Características:**
+    *   **Calculadora Pro C++ & 3D Web:** Aplicación dual que cuenta con una versión de consola orientada a objetos en C++11 y una recreación interactiva en 3D (Three.js) con interfaz LCD dinámica y cinta de papel deslizable.
+*   **Tecnologías:** C++11 (OOP), HTML5, CSS3 y JavaScript (Three.js).
+*   **Ubicación:** [`Proyectos_C++/`](./Proyectos_C++)
+
 ---
 
 ## 🛠️ Tecnologías y Estándares de Diseño
@@ -65,10 +72,14 @@ Paginas_web_diseño/
 │   ├── style.css                # Diseño visual y responsive
 │   └── app.js                   # Lógica de gestión de videojuegos
 │
-└── identificacion_matriculas_ano/ # Proyecto Matrículas 360
-    ├── index.html               # Estructura principal
-    ├── style.css                # Estilos visuales y adaptabilidad
-    └── app.js                   # Lógica e internacionalización de matrículas
+├── identificacion_matriculas_ano/ # Proyecto Matrículas 360
+│   ├── index.html               # Estructura principal
+│   ├── style.css                # Estilos visuales y adaptabilidad
+│   └── app.js                   # Lógica e internacionalización de matrículas
+│
+└── Proyectos_C++/               # Proyectos de C++ y Web
+    ├── README.md                # Detalle del contenido C++
+    └── calculadora/             # Proyecto Calculadora Dual (C++ / 3D Web)
 ```
 
 ---

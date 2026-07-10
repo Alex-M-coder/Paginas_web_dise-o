@@ -42,3 +42,7 @@ out/
 .env.production.local
 *.local
 
+# Proyectos C++
+Proyectos_C++/
+
+

@@ -14,7 +14,7 @@ La aplicación utiliza la potencia de **Three.js** para renderizar gráficos en 
 *   **Sintetizador de Audio Procedimental (Web Audio API)**: Generación por software de un sonido de fondo ambiental tipo "motor de nave" modulado por LFO, efectos acústicos para eventos de navegación (*hover*), selección (*click*), adición de ítems al carrito (arpegios ascendentes) y simulación metálica de caja registradora al comprar.
 *   **Gestor de Carrito de Compras Estático**: Almacenamiento persistente en `localStorage` con funciones para sumar, restar y eliminar unidades del catálogo de videojuegos.
 *   **Sistema de Suscripciones y Descuentos**: Simulación de inicio de sesión con cuentas integradas de diferentes niveles de suscripción (Free, Pro, Premium, VIP). Dependiendo del plan activo del usuario, la interfaz aplica un porcentaje de descuento dinámico en tiempo real sobre los precios de los videojuegos agregados al carrito de compras.
-*   **Diseño HUD Glassmorphic**: Interfaz superpuesta de ciencia ficción con efectos de desenfoque de fondo (*backdrop-filter*), textos brillantes con sombra de neón, barra de búsqueda reactiva y filtros automáticos por categorías (Sci-Fi, RPG, Deportes, Carreras, Planes).
+*   **Diseño HUD Glassmorphic**: Interfaz superpuesta de ciencia ficción con efectos de desenfoque de fondo (*backdrop-filter*), textos brillantes con sombra de neón, barra de búsqueda reactiva y filtros automáticos por categorías (Acción, Sci-Fi, RPG, Deportes, Carreras, Planes).
 
 ---
 
