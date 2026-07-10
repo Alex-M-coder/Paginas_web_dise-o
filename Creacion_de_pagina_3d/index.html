@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22 width=%22100%22 height=%22100%22><text y=%220.9em%22 font-size=%2290%22>🪐</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEBULA 3D - Tienda Holográfica de Videojuegos y Suscripciones</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Canvas para el renderizador 3D -->
+    <canvas id="store-canvas"></canvas>
+
+    <!-- Fondo con rejilla Sci-Fi -->
+    <div class="grid-background"></div>
+
+    <!-- Pantalla de Carga -->
+    <div id="loading-overlay">
+      <div class="loader-content">
+        <h1 class="glow-text">NEBULA 3D</h1>
+        <div class="spinner-container">
+          <div class="spinner"></div>
+        </div>
+        <p class="loader-status">INICIALIZANDO ESCENARIOS HOLOGRÁFICOS...</p>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="load-progress"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD Principal (Capa 2D) -->
+    <div id="hud-container">
+      <!-- Encabezado / Header -->
+      <header class="hud-header">
+        <div class="logo-area">
+          <span class="logo-icon">🪐</span>
+          <div class="logo-text">
+            <h1 class="glow-text">NEBULA 3D</h1>
+            <p class="subtitle">STORE SYSTEM v1.1.2</p>
+          </div>
+        </div>
+
+        <!-- Filtros de Categorías y Planes -->
+        <nav class="category-filters">
+          <button class="filter-btn active" data-category="all">TODOS</button>
+          <button class="filter-btn" data-category="Sci-Fi">SCI-FI</button>
+          <button class="filter-btn" data-category="RPG">RPG</button>
+          <button class="filter-btn" data-category="Deportes">DEPORTES</button>
+          <button class="filter-btn" data-category="Carreras">CARRERAS</button>
+          <div class="nav-divider"></div>
+          <button class="filter-btn subs-nav-btn" data-category="subs">🎟️ PLANES</button>
+        </nav>
+
+        <!-- Barra de búsqueda, login y carrito -->
+        <div class="header-controls">
+          <div class="search-box" id="search-box-container">
+            <input type="text" id="search-input" placeholder="Buscar juego..." autocomplete="off">
+            <span class="search-icon">🔍</span>
+          </div>
+
+          <!-- Perfil de usuario conectado -->
+          <div id="user-profile-hud" class="user-profile-hud hidden">
+            <span class="user-avatar">👤</span>
+            <div class="user-meta">
+              <span id="hud-user-name" class="user-name">Juan García</span>
+              <span id="hud-user-plan" class="user-plan-badge">PRO</span>
+            </div>
+            <button id="logout-btn" class="logout-btn" title="Cerrar Sesión">➔</button>
+          </div>
+
+          <!-- Botón de Login si no está conectado -->
+          <button id="login-trigger-btn" class="login-trigger-btn">
+            Iniciar Sesión
+          </button>
+
+          <button id="audio-toggle" class="control-btn" title="Activar/Silenciar Audio">
+            <span class="audio-icon">🔊</span>
+          </button>
+
+          <button id="cart-toggle-btn" class="cart-btn">
+            <span class="cart-icon">🛒</span>
+            <span class="cart-count">0</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Instrucciones de Navegación 3D -->
+      <div class="navigation-hint">
+        <p>🖱️ Arrastra para rotar el carrusel 3D | Usa la rueda para hacer zoom</p>
+      </div>
+
+      <!-- Panel de Detalles del Juego/Plan Seleccionado (Inferior/Centro) -->
+      <section id="game-details" class="details-panel hidden">
+        <div class="details-header">
+          <div class="details-title-group">
+            <div class="tags-row">
+              <span class="game-tag" id="game-category">SCI-FI</span>
+              <span class="game-tag discount-tag hidden" id="game-discount">-20% DTO</span>
+            </div>
+            <h2 id="game-title" class="glow-text">Nombre del Videojuego</h2>
+            <div class="rating-container" id="rating-wrapper">
+              <span class="rating-stars">★★★★★</span>
+              <span id="game-rating" class="rating-val">4.8</span>
+            </div>
+          </div>
+          <button id="close-details-btn" class="close-btn">&times;</button>
+        </div>
+
+        <div class="details-body">
+          <p id="game-description" class="game-desc">Descripción larga del videojuego seleccionado. Conoce los detalles de esta aventura intergaláctica de simulación espacial.</p>
+          
+          <!-- Metadatos de Juego -->
+          <div class="game-info-meta" id="game-metadata-box">
+            <div class="meta-item">
+              <span class="meta-label">PLATAFORMAS</span>
+              <span class="meta-value" id="game-platforms">PC / PS5 / XBOX</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">DESARROLLADOR</span>
+              <span class="meta-value" id="game-developer">Nebula Studios</span>
+            </div>
+          </div>
+
+          <!-- Metadatos de Suscripción (Solo se muestra en planes) -->
+          <div class="subscription-features-box hidden" id="sub-features-box">
+            <span class="meta-label">BENEFICIOS INCLUIDOS:</span>
+            <ul class="features-list" id="sub-features-list">
+              <!-- Cargado dinámicamente -->
+            </ul>
+          </div>
+        </div>
+
+        <div class="details-footer">
+          <div class="price-container">
+            <span class="price-label">PRECIO</span>
+            <div class="price-row-details">
+              <span id="game-price-original" class="price-val-original hidden">$59.99</span>
+              <span id="game-price" class="price-val">$59.99</span>
+            </div>
+          </div>
+
+          <!-- Interruptor de Facturación (Solo para suscripciones) -->
+          <div id="billing-cycle-toggle" class="billing-toggle-container hidden">
+            <span class="toggle-label active" id="monthly-label">MENSUAL</span>
+            <label class="switch">
+              <input type="checkbox" id="billing-toggle-checkbox">
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label" id="annual-label">ANUAL</span>
+          </div>
+
+          <button id="add-to-cart-btn" class="buy-now-btn">
+            AÑADIR AL CARRITO
+          </button>
+        </div>
+      </section>
+
+      <!-- Botones de Navegación del Carrusel (Izquierda/Derecha) -->
+      <div class="carousel-nav">
+        <button id="prev-game-btn" class="nav-arrow-btn" title="Juego Anterior">◀</button>
+        <button id="next-game-btn" class="nav-arrow-btn" title="Siguiente Juego">▶</button>
+      </div>
+    </div>
+
+    <!-- Carrito de Compras (Slide-out Drawer) -->
+    <aside id="cart-drawer" class="cart-sidebar closed">
+      <div class="cart-header">
+        <h2 class="glow-text">CESTA DE COMPRA</h2>
+        <button id="close-cart-btn" class="close-btn">&times;</button>
+      </div>
+      
+      <div class="cart-items-container" id="cart-items">
+        <div class="cart-empty-message">
+          <p>Tu cesta de compras está vacía.</p>
+          <p class="sub">¡Selecciona un juego del escaparate 3D!</p>
+        </div>
+      </div>
+
+      <div class="cart-footer">
+        <div class="cart-total-row">
+          <span>TOTAL:</span>
+          <span id="cart-total-price" class="glow-text">$0.00</span>
+        </div>
+        <button id="checkout-btn" class="checkout-btn-main" disabled>
+          PROCESAR HOLOGIRO (COMPRAR)
+        </button>
+      </div>
+    </aside>
+
+    <!-- Modal de Login Cyberpunk -->
+    <div id="login-modal" class="modal-overlay hidden">
+      <div class="modal-content glassmorphism">
+        <button id="close-login-btn" class="close-btn absolute-close" title="Cerrar">&times;</button>
+        <h2 class="glow-text">CONEXIÓN NEBULA</h2>
+        <p class="modal-msg">Accede a tu cuenta DAW para vincular tu plan de suscripción y recibir descuentos automáticos.</p>
+        
+        <form id="login-form" class="cyber-form">
+          <div class="form-group">
+            <label for="login-email">CORREO ELECTRÓNICO</label>
+            <input type="email" id="login-email" placeholder="correo@ejemplo.com" required>
+            <small class="form-help">Cuentas válidas: <code>juan@email.com</code>, <code>maria@email.com</code> o <code>carlos@email.com</code></small>
+          </div>
+          
+          <div class="form-group">
+            <label for="login-password">CLAVE NEURAL (CONTRASEÑA)</label>
+            <input type="password" id="login-password" value="123456" placeholder="******" required>
+          </div>
+          
+          <div id="login-error-msg" class="error-msg hidden">⚠️ Credenciales incorrectas. Intenta con una cuenta válida.</div>
+          
+          <button type="submit" class="submit-login-btn">CONECTAR NEURONA</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal de Transacción Exitosa -->
+    <div id="transaction-modal" class="modal-overlay hidden">
+      <div class="modal-content glassmorphism">
+        <div class="success-icon-container">
+          <div class="success-icon">✓</div>
+        </div>
+        <h2 class="glow-text">¡COMPRA EXITOSA!</h2>
+        <p class="modal-msg">Tu hologiro y orden de descarga han sido verificadas en la Blockchain de Nebula.</p>
+        
+        <div class="receipt-details">
+          <div class="receipt-row">
+            <span>ID de Transacción:</span>
+            <code id="receipt-tx-id">TX-849204-NX</code>
+          </div>
+          <div class="receipt-row">
+            <span>Método de Entrega:</span>
+            <span id="receipt-delivery">Descarga Neural Directa</span>
+          </div>
+          <div class="receipt-row">
+            <span>Importe Total:</span>
+            <span id="receipt-amount" class="glow-text">$59.99</span>
+          </div>
+        </div>
+
+        <button id="close-modal-btn" class="close-modal-btn">VOLVER A LA TIENDA</button>
+      </div>
+    </div>
+
+    <!-- Script Principal -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

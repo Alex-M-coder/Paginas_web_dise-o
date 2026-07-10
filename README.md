@@ -26,13 +26,24 @@ Una herramienta avanzada para analizar e identificar matrículas de vehículos e
 *   **Tecnologías:** HTML5, CSS3 avanzado (animaciones, variables CSS) y JavaScript para el motor de traducción y lógica de parseo de matrículas.
 *   **Ubicación:** [`identificacion_matriculas_ano/`](./identificacion_matriculas_ano)
 
+### 3. 🪐 Nebula 3D - Tienda Holográfica de Videojuegos y Suscripciones
+Una tienda virtual inmersiva y tridimensional que simula un escaparate de videojuegos y planes de suscripción con estética cyberpunk.
+*   **Características:**
+    *   **Carrusel 3D Interactivo:** Escaparate circular con soporte para arrastre con el ratón, zoom de cámara y navegación por teclado.
+    *   **Modelos 3D Procedurales:** Generación matemática en tiempo real de geometrías (naves espaciales, espadas, coches, castillos, etc.) sin usar modelos externos.
+    *   **Texturas Dinámicas:** Renderizado 2D en tiempo real sobre lienzos (canvas) mapeados como materiales de textura en los bloques 3D.
+    *   **Audio Sintetizado:** Efectos acústicos y sonido ambiental generados procedimentalmente con la Web Audio API.
+    *   **Descuentos Dinámicos:** Carrito integrado que recalcula los precios automáticamente según el nivel de suscripción del usuario.
+*   **Tecnologías:** HTML5, CSS3, JavaScript (ES Modules), Three.js, GSAP y Web Audio API.
+*   **Ubicación:** [`Creacion_de_pagina_3d/`](./Creacion_de_pagina_3d)
+
 ---
 
 ## 🛠️ Tecnologías y Estándares de Diseño
 
 *   **HTML5 Semántico:** Estructuración limpia y accesible para SEO y lectores de pantalla.
 *   **CSS3 Custom (Sin frameworks):** Diseños premium personalizados, uso de variables de CSS para fácil mantenimiento, gradientes suaves y micro-animaciones en botones y tarjetas para una excelente experiencia de usuario (UX).
-*   **JavaScript (Vanilla JS):** Lógica nativa de alto rendimiento sin dependencias externas pesadas, asegurando tiempos de carga rápidos.
+*   **JavaScript (Vanilla JS / ES Modules):** Lógica nativa de alto rendimiento y uso de módulos ES modernos, integrando librerías especializadas en renderizado 3D y control de animaciones cuando es necesario.
 
 ---
 
@@ -42,6 +53,12 @@ Una herramienta avanzada para analizar e identificar matrículas de vehículos e
 Paginas_web_diseño/
 ├── .gitignore                   # Archivos y carpetas excluidos de Git
 ├── README.md                    # Documentación del proyecto (este archivo)
+│
+├── Creacion_de_pagina_3d/       # Proyecto Nebula 3D (WebGL / Three.js)
+│   ├── index.html               # Estructura principal del HUD
+│   ├── package.json             # Dependencias npm y scripts de Vite
+│   ├── src/                     # Código fuente (Three.js, GSAP, Audio, UI)
+│   └── README.md                # Detalle técnico del proyecto 3D
 │
 ├── Gestor_Videojuegos/          # Proyecto GameVault
 │   ├── index.html               # Estructura principal de la app
@@ -60,6 +77,16 @@ Paginas_web_diseño/
 
 Para visualizar y probar cualquiera de los proyectos localmente:
 
-1. Descarga o clona este repositorio.
-2. Navega a la carpeta del proyecto que deseas probar (`Gestor_Videojuegos` o `identificacion_matriculas_ano`).
-3. Abre el archivo `index.html` directamente en tu navegador web de preferencia, o bien utiliza una extensión como **Live Server** en tu editor de código para una recarga automática en tiempo real.
+### Proyectos Estáticos (GameVault / Matrículas 360)
+1. Navega a la carpeta del proyecto (`Gestor_Videojuegos` o `identificacion_matriculas_ano`).
+2. Abre el archivo `index.html` directamente en tu navegador web de preferencia, o bien utiliza una extensión como **Live Server** en tu editor de código.
+
+### Proyectos con Servidor de Desarrollo (Nebula 3D)
+1. Navega a la carpeta del proyecto (`Creacion_de_pagina_3d`).
+2. Instala las dependencias necesarias y arranca el servidor de desarrollo de Vite:
+   ```bash
+   npm install
+   npm run dev
+   ```
+3. Abre en tu navegador la dirección local indicada por la consola (normalmente `http://localhost:5173/`).
+
